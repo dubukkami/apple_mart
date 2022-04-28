@@ -50,35 +50,35 @@ const TabBtn = styled.button`
 `;
 
 function SaleHeader({ history, tab, onClick }) {
-  return (
-    <SaleHeaderWrap>
-      <DepthInner>
-        <BackLink>
-          <Link
-            to="/"
-            onClick={(e) => {
-              e.preventDefault();
-              history(-1);
-            }}
-          >
-            <ArrowBlack />
-          </Link>
-        </BackLink>
-        <HeaderTitle>판매내역</HeaderTitle>
-      </DepthInner>
-      <TabMenu>
-        <TabItem tab={tab}>
-          <TabBtn onClick={() => onClick(1)}>판매중</TabBtn>
-        </TabItem>
-        <TabItem tab={tab}>
-          <TabBtn onClick={() => onClick(2)}>거래완료</TabBtn>
-        </TabItem>
-        <TabItem tab={tab}>
-          <TabBtn onClick={() => onClick(3)}>숨김</TabBtn>
-        </TabItem>
-      </TabMenu>
-    </SaleHeaderWrap>
-  );
+    return (
+        <SaleHeaderWrap>
+            <DepthInner>
+                <BackLink>
+                    <Link
+                        to="/"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            history(-1);
+                        }}
+                    >
+                        <ArrowBlack />
+                    </Link>
+                </BackLink>
+                <HeaderTitle>판매내역</HeaderTitle>
+            </DepthInner>
+            <TabMenu>
+                <TabItem tab={tab}>
+                    <TabBtn onClick={() => onClick(1)}>판매중</TabBtn>
+                </TabItem>
+                <TabItem tab={tab}>
+                    <TabBtn onClick={() => onClick(2)}>거래완료</TabBtn>
+                </TabItem>
+                <TabItem tab={tab}>
+                    <TabBtn onClick={() => onClick(3)}>숨김</TabBtn>
+                </TabItem>
+            </TabMenu>
+        </SaleHeaderWrap>
+    );
 }
 
 export default SaleHeader;

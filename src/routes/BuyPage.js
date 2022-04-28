@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Inner } from "../components/layout/Inner";
@@ -11,6 +11,7 @@ import { MobileInner } from "../components/common/MobileInner";
 import BuyHeader from "../components/layout/buy/BuyHeader";
 import BuyBtnList from "../components/layout/buy/BuyBtnList";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const SaleWrap = styled.div`
   display: block;
@@ -27,6 +28,7 @@ const SaleInner = styled(Inner)`
 
 const BuyPage = () => {
   const [tab, setTab] = useState(1);
+  const [item, setItem] = useState( [] );
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
@@ -46,45 +48,54 @@ const BuyPage = () => {
     review: "content",
   };
 
+  useEffect(()=>{
+    axios
+        .get("/buy")
+        .then((result) => {
+          setItem(result.data.data)
+        })
+        .catch((reason) => {
+          console.log(reason)
+        });  },[])
   return (
-    <MobileContainer>
-      <MobileInner>
-        <SaleWrap>
-          <BuyHeader history={history} />
-          <DepthInner>
-            {tab === 1 &&
-              itemOfJson.map((item, i) => {
-                const { region_name, img_src, title, content, price } = item;
-                if (i > 10) {
-                  return;
-                }
+      <MobileContainer>
+        <MobileInner>
+          <SaleWrap>
+            <BuyHeader history={history} />
+            <DepthInner>
+              {tab === 1 &&
+                  item.map((item, i) => {
+                    const { region_name, img, title, content, price } = item;
+                    if (i > 10) {
+                      return;
+                    }
 
-                return (
-                  <div key={i}>
-                    <SaleInner>
-                      <SaleStuff
-                        no={1}
-                        thumb={img_src}
-                        matter={{
-                          title: title,
-                          content: content,
-                          price: price,
-                        }}
-                        time={new Date().getTime()}
-                        creatorId={userObj.uid}
-                        region={region_name}
-                        page="buy"
-                        status="end"
-                      />
-                    </SaleInner>
-                    <BuyBtnList id={i} />
-                  </div>
-                );
-              })}
-          </DepthInner>
-        </SaleWrap>
-      </MobileInner>
-    </MobileContainer>
+                    return (
+                        <div key={i}>
+                          <SaleInner>
+                            <SaleStuff
+                                no={1}
+                                thumb={img}
+                                matter={{
+                                  title: title,
+                                  content: content,
+                                  price: price,
+                                }}
+                                time={new Date().getTime()}
+                                creatorId={userObj.uid}
+                                region={region_name}
+                                page="buy"
+                                status="end"
+                            />
+                          </SaleInner>
+                          <BuyBtnList id={i} />
+                        </div>
+                    );
+                  })}
+            </DepthInner>
+          </SaleWrap>
+        </MobileInner>
+      </MobileContainer>
   );
 };
 

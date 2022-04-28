@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
+import {useState} from "react";
 
 const ChangeBtnGroup = styled.div`
   font-size: 13px;
@@ -15,15 +17,31 @@ const ChangeBtn = styled.div`
   border: 1px solid #d7d7d7;
 `;
 
-function SaleBtnList() {
-  return (
-    <>
-      <ChangeBtnGroup>
-        <ChangeBtn>예약중으로 변경</ChangeBtn>
-        <ChangeBtn>거래완료로 변경</ChangeBtn>
-      </ChangeBtnGroup>
-    </>
-  );
+function SaleBtnList({no, reset, render}) {
+    const [toggle, setToggle] = useState(false);
+    const onChange = async () => {
+        // eslint-disable-next-line no-restricted-globals
+        const chn = confirm("이 상품을 판매완료로 변경하시겠습니까?");
+        if (chn) {
+            axios.put("/sale/changeend/"+no)
+                .then(()=> {
+                    render(!reset)
+                    setToggle(false)
+                })
+                .catch((reason) => {
+                    console.log(reason)
+                });
+        }
+    };
+
+    return (
+        <>
+            <ChangeBtnGroup toggle={toggle}>
+                <ChangeBtn>예약중으로 변경</ChangeBtn>
+                <ChangeBtn><button onClick={onChange}>거래완료로 변경</button></ChangeBtn>
+            </ChangeBtnGroup>
+        </>
+    );
 }
 
 export default SaleBtnList;
