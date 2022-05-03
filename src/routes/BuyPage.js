@@ -65,7 +65,7 @@ const BuyPage = () => {
             <DepthInner>
               {tab === 1 &&
                   item.map((item, i) => {
-                    const { region_name, img, title, content, price } = item;
+                    const { region_name, img, title, content, price, reviewId, tradeHistoryId } = item;
                     if (i > 10) {
                       return;
                     }
@@ -88,7 +88,8 @@ const BuyPage = () => {
                                 status="end"
                             />
                           </SaleInner>
-                          <BuyBtnList id={i} />
+                          <BuyBtnList reviewId={reviewId}
+                                      tradeHistoryId={tradeHistoryId}/>
                         </div>
                     );
                   })}

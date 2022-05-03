@@ -10,6 +10,8 @@ import { dbService } from "../../../utils/api/fbInstance";
 import likeIconOn from "../../../images/ico/ico_like.png";
 import likeIconOff from "../../../images/ico/ico_like_count.png";
 import * as PropTypes from "prop-types";
+import axios from "axios";
+import priceCommaFunc from "../../../utils/priceCommaFunc";
 
 const StuffContentWrap = styled.div`
   display: flex;
@@ -120,6 +122,17 @@ function SaleStuff({ thumb, matter, time, no, region, page, like, status }) {
     .map((e) => e.join("="))
     .join("&");
 
+  const onChange = async () => {
+
+   await axios.post("/likePost/"+no)
+        .then(()=> {
+          setToggleIcon((state)=>!state)
+        })
+        .catch((reason) => {
+          console.log(reason)
+        });
+  };
+
   const onDelete = async () => {
     // eslint-disable-next-line no-restricted-globals
     const del = confirm("정말로 이 상품을 삭제하시겠습니까?");
@@ -141,7 +154,7 @@ function SaleStuff({ thumb, matter, time, no, region, page, like, status }) {
               <LikeBx color={toggleIcon ? "on" : "off"}>
                 <button
                   type="button"
-                  onClick={() => setToggleIcon(!toggleIcon)}
+                  onClick={onChange}
                 >
                   {}
                 </button>
@@ -160,7 +173,7 @@ function SaleStuff({ thumb, matter, time, no, region, page, like, status }) {
         </DateLocation>
 
         <PriceTag>
-          {price && `${price}`}
+          {price && priceCommaFunc(price)}원
           {isEnd && <EndTag>판매완료</EndTag>}
         </PriceTag>
         {page && (page === "like" || page === "sale") ? (

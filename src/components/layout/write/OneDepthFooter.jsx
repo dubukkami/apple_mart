@@ -5,6 +5,7 @@ import likeIconOff from "../../../images/ico/ico_like_count.png";
 import likeIconOn from "../../../images/ico/ico_like.png";
 import { Link } from "react-router-dom";
 import priceCommaFunc from "../../../utils/priceCommaFunc";
+import axios from "axios";
 
 const DepthFooter = styled.footer`
   position: fixed;
@@ -64,14 +65,24 @@ const ChatBtn = styled.div`
   cursor: pointer;
 `;
 
-function OneDepthFooter({ chattingObj, isOwner, isLogin, stuffData }) {
+function OneDepthFooter({ chattingObj, isOwner, isLogin, stuffData, no}) {
   const [toggleIcon, setToggleIcon] = useState(false);
+  const onChange = async () => {
+
+      axios.post("/likePost/"+no)
+          .then(()=> {
+              setToggleIcon((state)=>!state)
+          })
+          .catch((reason) => {
+            console.log(reason)
+          });
+  };
   return (
     <DepthFooter>
       <DepthInner>
         <LikePriceBx>
           <LikeBx color={toggleIcon ? "on" : "off"}>
-            <button type="button" onClick={() => setToggleIcon(!toggleIcon)}>
+            <button type="button" onClick={onChange}>
               {}
             </button>
           </LikeBx>

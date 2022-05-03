@@ -36,6 +36,7 @@ const LikePage = () => {
   const [item, setItem] = useState([]);
   const onClick = (id) => setTab(id);
 
+
   const history = useNavigate();
   useEffect(()=>{
     axios
@@ -47,6 +48,8 @@ const LikePage = () => {
           console.log(reason)
         });
   },[])
+
+
   return (
       <MobileContainer>
         <MobileInner>
@@ -55,7 +58,7 @@ const LikePage = () => {
             <DepthInner>
               {tab === 1 &&
                   item.map((item, i) => {
-                    const { region_name, img, title, content, price } = item;
+                    const { region_name, img, title, content, price, id } = item;
                     if (i > 10) {
                       return;
                     }
@@ -64,7 +67,7 @@ const LikePage = () => {
                         <div key={i}>
                           <SaleInner>
                             <SaleStuff
-                                no={1}
+                                no={id}
                                 thumb={img}
                                 matter={{
                                   title: title,

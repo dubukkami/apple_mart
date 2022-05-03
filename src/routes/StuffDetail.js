@@ -196,6 +196,7 @@ function StuffDetail() {
                 isOwner={owner}
                 chattingObj={chattingObj}
                 isLogin={userObj}
+                no={id}
               />
             </StuffDetailWrap>
           </Container>
